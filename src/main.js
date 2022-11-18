@@ -22,9 +22,26 @@ const funcaoGeral = async () => {
     listaProdutos.appendChild(createProductElement(element));
   });
 };
-loadPag();
-await funcaoGeral();
-removedorDeMensage();
+const error = () => {
+  const failed = document.createElement('span');
+  failed.classList.add('error');
+  failed.innerHTML = 'Algum erro ocorreu, recarregue a página e tente novamente';
+  listaProdutos.appendChild(failed);
+};
+const mensageError = async () => {
+  try {
+    loadPag();
+    await funcaoGeral();
+    removedorDeMensage();
+  } catch (erro) {
+    removedorDeMensage();
+    error();
+  }
+};
+mensageError();
+// loadPag();
+// removedorDeMensage();
+// await funcaoGeral();
 
 document.querySelector('.cep-button').addEventListener('click', searchCep);
 // INICIANDO PROJETO, VAMO QUE VAMO!
