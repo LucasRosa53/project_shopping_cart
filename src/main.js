@@ -1,14 +1,18 @@
 import { searchCep } from './helpers/cepFunctions';
 import { fetchProduct, fetchProductsList } from './helpers/fetchFunctions';
 import './style.css';
-import { createProductElement } from './helpers/shopFunctions';
+import { createProductElement, createCartProductElement } from './helpers/shopFunctions';
 import { getSavedCartIDs } from './helpers/cartFunctions';
 
 const mantemStorageNoCarrinho = () => {
   const ids = getSavedCartIDs();
-  const promise = new Promise(ids.forEach((id) => fetchProduct(id)));
-  Promise.all([promise]).then((values) => {
-  
+  const promise = [];
+  ids.forEach((id) => promise.push(fetchProduct(id)));
+  Promise.all(promise).then((informacoes) => {
+    informacoes.forEach((outro) => {
+      const recebe = document.querySelector('.cart__products');
+      recebe.appendChild(createCartProductElement(outro));
+    });
   });
 };
 
@@ -48,6 +52,7 @@ const mensageError = async () => {
   }
 };
 mensageError();
+mantemStorageNoCarrinho();
 // loadPag();
 // removedorDeMensage();
 // await funcaoGeral();
