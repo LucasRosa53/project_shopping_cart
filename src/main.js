@@ -1,7 +1,16 @@
 import { searchCep } from './helpers/cepFunctions';
-import { fetchProductsList } from './helpers/fetchFunctions';
+import { fetchProduct, fetchProductsList } from './helpers/fetchFunctions';
 import './style.css';
 import { createProductElement } from './helpers/shopFunctions';
+import { getSavedCartIDs } from './helpers/cartFunctions';
+
+const mantemStorageNoCarrinho = () => {
+  const ids = getSavedCartIDs();
+  const promise = new Promise(ids.forEach((id) => fetchProduct(id)));
+  Promise.all([promise]).then((values) => {
+  
+  });
+};
 
 const listaProdutos = document.querySelector('.products');
 
